@@ -5,6 +5,7 @@ import com.example.Eshop.Dto.FakturaDto;
 import com.example.Eshop.Dto.Items;
 import com.example.Eshop.Dto.PersonalData;
 import com.example.Eshop.Dto.PersonalDocuments;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
@@ -19,6 +20,10 @@ public class FakturaDaoImpl extends NamedParameterJdbcDaoSupport implements Fakt
 
     private final JdbcTemplate jdbcTemplate;
 
+    @PostConstruct
+    private void initialize() {
+        setJdbcTemplate(jdbcTemplate);
+    }
     @Autowired
     public FakturaDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

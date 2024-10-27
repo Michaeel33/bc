@@ -11,13 +11,13 @@ public class Controller {
 
     private final FakturaService fakturaService;
 
-    // Konštruktor pre injekciu závislostí
+
     @Autowired
     public Controller(FakturaService fakturaService) {
         this.fakturaService = fakturaService;
     }
 
-    // Endpoint na získanie faktúry
+
     @GetMapping("/{perId}")
     public FakturaDto getFaktura(@PathVariable long perId) {
         return fakturaService.getFaktura(perId);
