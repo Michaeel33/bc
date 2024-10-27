@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class PersonalData {
-    private Integer perId;
+
     private String firstName;
     private String lastName;
     private String ulica;
