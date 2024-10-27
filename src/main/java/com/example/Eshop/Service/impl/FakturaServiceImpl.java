@@ -1,0 +1,24 @@
+package com.example.Eshop.Service.impl;
+
+import com.example.Eshop.Dao.FakturaDao;
+import com.example.Eshop.Dto.FakturaDto;
+import com.example.Eshop.Service.FakturaService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@RequiredArgsConstructor
+@Service
+public class FakturaServiceImpl  implements FakturaService {
+
+    @Autowired
+    private final FakturaDao fakturaDao;
+
+
+
+    // Metóda na získanie faktúry
+    public FakturaDto getFaktura(long perId) {
+        return fakturaDao.getFaktura(perId);
+    }
+
+}
