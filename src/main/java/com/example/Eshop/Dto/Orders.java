@@ -8,7 +8,6 @@ import java.util.List;
 public class Orders {
     private String orderNumber; // primárny kľúč
     private Double price;
-
-    List<ItemsForOrder> itemsForOrderList;
+    List<Items> orderedItems;
 
 }

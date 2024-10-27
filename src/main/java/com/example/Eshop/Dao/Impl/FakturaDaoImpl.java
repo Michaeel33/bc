@@ -50,6 +50,11 @@ public class FakturaDaoImpl extends NamedParameterJdbcDaoSupport implements Fakt
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> mapOrdersForPerId(rs), perId);
     }
 
+    public List<Items> getItemsForOrder(String orderNo){
+        String sql = "SELECT i.druhTovaru, i.cena, p.productType FROM itemsfororder ifo JOIN items i ON ifo.itemId = i.itemId JOIN products p ON i.prodId = p.prodId WHERE ifo.orderNumber = ?";
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> mapItemsForOrder(rs), orderNo);
+    }
+
     @Override
     public FakturaDto getFaktura(long perId) {
 
@@ -57,6 +62,11 @@ public class FakturaDaoImpl extends NamedParameterJdbcDaoSupport implements Fakt
         PersonalData personalDataDto = getPersonalData(perId);
         PersonalDocuments personalDocuments = getPersonalDoc(perId);
         List<Orders> ordersList = getOrdersForPerId(perId);
+
+        for (Orders order : ordersList) {
+            List<Items> itemList = getItemsForOrder(order.getOrderNumber());
+            order.setOrderedItems(itemList);
+        }
 
         fakturaDto.setPersId(perId);
         fakturaDto.setPersonalData(personalDataDto);
@@ -101,6 +111,20 @@ public class FakturaDaoImpl extends NamedParameterJdbcDaoSupport implements Fakt
 
         return ordersList;
 
+    }
+
+    private List<Items> mapItemsForOrder(ResultSet rs) throws SQLException {
+        List<Items> itemsList = new ArrayList<>();
+
+        do {
+            Items item = new Items();
+            item.setKategoria(rs.getString("productType"));
+            item.setDruhTovaru(rs.getString("druhTovaru"));
+            item.setCena(rs.getDouble("cena"));
+            itemsList.add(item);
+        } while (rs.next());
+
+        return itemsList;
     }
 
 }
