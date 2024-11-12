@@ -6,7 +6,5 @@ import com.example.Eshop.Dto.PersonalDocuments;
 
 public interface FakturaDao {
 
-    PersonalData getPersonalData(long perId);
-
     FakturaDto getFaktura(long perId);
 }

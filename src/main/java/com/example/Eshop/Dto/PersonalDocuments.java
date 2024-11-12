@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class PersonalDocuments {
-    private String obcianskypreukaz;
+    private String customerId;
     private String countryName; // ID krajiny ako cudzí kľúč
     private boolean isVerified;
 }

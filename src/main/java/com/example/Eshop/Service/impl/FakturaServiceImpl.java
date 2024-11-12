@@ -16,9 +16,8 @@ public class FakturaServiceImpl  implements FakturaService {
     private final FakturaDao fakturaDao;
 
 
-    // Metóda na získanie faktúry
-    public FakturaDto getFaktura(long perId) {
+    @Override
+    public FakturaDto getFakturaHistory(long perId) {
         return fakturaDao.getFaktura(perId);
     }
-
 }

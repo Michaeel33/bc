@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface FakturaService {
 
-    FakturaDto getFaktura(long perId);
+    FakturaDto getFakturaHistory(long perId);
 
 }
