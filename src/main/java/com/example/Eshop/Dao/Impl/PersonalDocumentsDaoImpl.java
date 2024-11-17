@@ -19,19 +19,28 @@ public class PersonalDocumentsDaoImpl implements PersonalDocumentsDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public PersonalDocuments getPersonalDoc(long perId) {
-        String sql = "SELECT pd.obcianskypreukaz, pd.isVerified, c.countryName " +
-                "FROM personaldocuments pd " +
-                "JOIN country c ON pd.stat = c.countryId " +
-                "WHERE pd.perId = ?";
-        return jdbcTemplate.queryForObject(sql, this::mapPersDocument, perId);
+public PersonalDocuments getPersonalDoc(long perId) {
+    String sql = "SELECT pd.perId, pd.obcianskypreukaz, pd.isVerified, c.countryName " +
+            "FROM personaldocuments pd " +
+            "JOIN country c ON pd.stat = c.countryId " +
+            "WHERE pd.perId = ?";
+    return jdbcTemplate.queryForObject(sql, this::mapPersDocument, perId);
+}
+    public Long getPerIdByCustomerId(String customerId) {
+        String sql = "SELECT perId FROM personaldocuments WHERE obcianskypreukaz = ?";
+        return jdbcTemplate.queryForObject(sql, Long.class, customerId);
     }
+
+
 
     private PersonalDocuments mapPersDocument(ResultSet rs, int rowNum) throws SQLException {
         PersonalDocuments document = new PersonalDocuments();
+
+        document.setPerId(rs.getLong("perId"));
         document.setCustomerId(rs.getString("obcianskypreukaz"));
         document.setVerified(rs.getInt("isVerified") == 1);
         document.setCountryName(rs.getString("countryName"));
+
         return document;
     }
 }

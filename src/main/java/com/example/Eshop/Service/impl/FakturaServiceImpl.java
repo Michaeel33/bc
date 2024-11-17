@@ -6,6 +6,7 @@ import com.example.Eshop.Dao.OrdersDao;
 import com.example.Eshop.Dao.PersonalDataDao;
 import com.example.Eshop.Dao.PersonalDocumentsDao;
 import com.example.Eshop.Dto.*;
+import com.example.Eshop.Exception.CustomerNotFoundException;
 import com.example.Eshop.Service.FakturaService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,23 @@ public class FakturaServiceImpl  implements FakturaService {
         fakturaDto.setOrdersList(ordersList);
 
         return fakturaDto;
+    }
+
+    public FakturaDto getFakturaHistoryByCustomerName(String firstName, String lastName) {
+
+        List<PersonalData> personalDataList = personalDataDao.getPersonalDataByName(firstName, lastName);
+
+        if (personalDataList.isEmpty()) {
+            throw new CustomerNotFoundException("Customer not found with name: " + firstName + " " + lastName);
+        }
+        long perId = personalDataList.get(0).getPerId();
+
+        return getFakturaHistory(perId);
+    }
+
+    public FakturaDto getFakturaHistoryByCustomerId(String customerId) {
+        Long perId = personalDocumentsDao.getPerIdByCustomerId(customerId);
+
+        return getFakturaHistory(perId);
     }
 }
