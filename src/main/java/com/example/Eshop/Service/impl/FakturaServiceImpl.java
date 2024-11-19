@@ -1,14 +1,12 @@
 package com.example.Eshop.Service.impl;
 
-import com.example.Eshop.Dao.FakturaDao;
-import com.example.Eshop.Dao.Impl.ItemsDao;
+import com.example.Eshop.Dao.ItemsDao;
 import com.example.Eshop.Dao.OrdersDao;
 import com.example.Eshop.Dao.PersonalDataDao;
 import com.example.Eshop.Dao.PersonalDocumentsDao;
 import com.example.Eshop.Dto.*;
 import com.example.Eshop.Exception.CustomerNotFoundException;
 import com.example.Eshop.Service.FakturaService;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

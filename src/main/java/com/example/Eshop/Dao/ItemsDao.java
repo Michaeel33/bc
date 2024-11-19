@@ -1,4 +1,4 @@
-package com.example.Eshop.Dao.Impl;
+package com.example.Eshop.Dao;
 
 import com.example.Eshop.Dto.Items;
 import java.util.List;

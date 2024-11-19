@@ -1,5 +1,6 @@
 package com.example.Eshop.Dao.Impl;
 
+import com.example.Eshop.Dao.ItemsDao;
 import com.example.Eshop.Dto.Items;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
