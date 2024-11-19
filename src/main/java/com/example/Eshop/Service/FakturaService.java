@@ -11,8 +11,8 @@ import java.util.List;
 public interface FakturaService {
 
     FakturaDto getFakturaHistory(long perId);
-    FakturaDto searchFaktura(SearchRequestDto searchRequest);
-    FakturaDto getFakturaHistoryByCustomerName(String firstName, String lastName);
+    List<FakturaDto> searchFaktura(SearchRequestDto searchRequest);
+    List<FakturaDto> getFakturaHistoryByCustomerName(String firstName, String lastName);
     FakturaDto getFakturaHistoryByCustomerId(String customerId);
 
 }

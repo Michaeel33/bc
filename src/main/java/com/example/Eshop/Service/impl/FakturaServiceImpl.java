@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -49,7 +50,8 @@ public class FakturaServiceImpl  implements FakturaService {
         return fakturaDto;
     }
 
-    public FakturaDto searchFaktura(SearchRequestDto searchRequest) {
+    @Override
+    public List<FakturaDto> searchFaktura(SearchRequestDto searchRequest) {
         String paramForSearch = searchRequest.getParamForSearch();
         String value = searchRequest.getValue();
 
@@ -61,7 +63,9 @@ public class FakturaServiceImpl  implements FakturaService {
                 throw new IllegalArgumentException("Invalid name format. Expected 'firstName lastName'.");
             }
         } else if ("customerId".equalsIgnoreCase(paramForSearch)) {
-            return getFakturaHistoryByCustomerId(value);
+            List<FakturaDto> result = new ArrayList<>();
+            result.add(getFakturaHistoryByCustomerId(value));
+            return result;
         } else {
             throw new IllegalArgumentException("Invalid paramForSearch. Expected 'name' or 'customerId'.");
         }
@@ -69,15 +73,20 @@ public class FakturaServiceImpl  implements FakturaService {
 
 
     @Override
-    public FakturaDto getFakturaHistoryByCustomerName(String firstName, String lastName) {
+    public List<FakturaDto> getFakturaHistoryByCustomerName(String firstName, String lastName) {
         List<PersonalData> personalDataList = personalDataDao.getPersonalDataByName(firstName, lastName);
 
         if (personalDataList.isEmpty()) {
             throw new CustomerNotFoundException("Customer not found with name: " + firstName + " " + lastName);
         }
-        long perId = personalDataList.get(0).getPerId();
 
-        return getFakturaHistory(perId);
+        List<FakturaDto> fakturaDtoList = new ArrayList<>();
+        for (PersonalData personalData : personalDataList) {
+            long perId = personalData.getPerId();
+            fakturaDtoList.add(getFakturaHistory(perId));
+        }
+
+        return fakturaDtoList;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class Controller {
 
 
     @PostMapping("search")
-    public FakturaDto searchFaktura(@RequestBody SearchRequestDto searchRequest) {
+    public List<FakturaDto> searchFaktura(@RequestBody SearchRequestDto searchRequest) {
         return fakturaService.searchFaktura(searchRequest);
     }
 }
