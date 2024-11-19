@@ -31,23 +31,8 @@ public class Controller {
     public FakturaDto searchFaktura(@RequestBody SearchRequestDto searchRequest) {
         return fakturaService.searchFaktura(searchRequest);
     }
-
-    @GetMapping("history-by-customer-id")
-    public FakturaDto getFakturaHistoryByCustomerId(@RequestParam String customerId) {
-        return fakturaService.getFakturaHistoryByCustomerId(customerId);
-    }
 }
 
-//    @GetMapping("customer")
-//    public FakturaDto getFakturaHistoryByName(@RequestParam String firstName, @RequestParam String lastName) {
-//        return fakturaService.getFakturaHistoryByCustomerName(firstName, lastName);
-//    }
-//
-//
-//    @GetMapping("history-by-customer-id")
-//    public FakturaDto getFakturaHistoryByCustomerId(@RequestParam String customerId) {
-//        return fakturaService.getFakturaHistoryByCustomerId(customerId);
-//    }
 
 
 
