@@ -1,5 +1,6 @@
 package com.example.Eshop.Service.impl;
 
+import Request.SearchRequestDto;
 import com.example.Eshop.Dao.ItemsDao;
 import com.example.Eshop.Dao.OrdersDao;
 import com.example.Eshop.Dao.PersonalDataDao;
@@ -10,6 +11,8 @@ import com.example.Eshop.Service.FakturaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -46,8 +49,27 @@ public class FakturaServiceImpl  implements FakturaService {
         return fakturaDto;
     }
 
-    public FakturaDto getFakturaHistoryByCustomerName(String firstName, String lastName) {
+    public FakturaDto searchFaktura(SearchRequestDto searchRequest) {
+        String paramForSearch = searchRequest.getParamForSearch();
+        String value = searchRequest.getValue();
 
+        if ("name".equalsIgnoreCase(paramForSearch)) {
+            String[] names = value.split(" ");
+            if (names.length == 2) {
+                return getFakturaHistoryByCustomerName(names[0], names[1]);
+            } else {
+                throw new IllegalArgumentException("Invalid name format. Expected 'firstName lastName'.");
+            }
+        } else if ("customerId".equalsIgnoreCase(paramForSearch)) {
+            return getFakturaHistoryByCustomerId(value);
+        } else {
+            throw new IllegalArgumentException("Invalid paramForSearch. Expected 'name' or 'customerId'.");
+        }
+    }
+
+
+    @Override
+    public FakturaDto getFakturaHistoryByCustomerName(String firstName, String lastName) {
         List<PersonalData> personalDataList = personalDataDao.getPersonalDataByName(firstName, lastName);
 
         if (personalDataList.isEmpty()) {
@@ -58,6 +80,7 @@ public class FakturaServiceImpl  implements FakturaService {
         return getFakturaHistory(perId);
     }
 
+    @Override
     public FakturaDto getFakturaHistoryByCustomerId(String customerId) {
         Long perId = personalDocumentsDao.getPerIdByCustomerId(customerId);
 
