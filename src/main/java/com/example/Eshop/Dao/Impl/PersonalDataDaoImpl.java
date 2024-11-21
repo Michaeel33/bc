@@ -30,6 +30,12 @@ public class PersonalDataDaoImpl implements PersonalDataDao {
         return jdbcTemplate.query(sql, this::mapPersonalData, firstName, lastName);
     }
 
+    @Override
+    public void savePersonalData(PersonalData personalData) {
+        String sql = "INSERT INTO personaldata (firstName, lastName, ulica, mesto, psc) VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, personalData.getFirstName(), personalData.getLastName(), personalData.getUlica(), personalData.getMesto(), personalData.getPsc());
+    }
+
 
     private PersonalData mapPersonalData(ResultSet rs, int rowNum) throws SQLException {
         PersonalData personalData = new PersonalData();

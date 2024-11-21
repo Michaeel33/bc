@@ -1,7 +1,6 @@
-package com.example.Eshop;
+package com.example.Eshop.Controller;
 import Request.SearchRequestDto;
 import com.example.Eshop.Dto.FakturaDto;
-import com.example.Eshop.Dto.PersonalData;
 import com.example.Eshop.Service.FakturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +9,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/faktura")
-public class Controller {
+public class FakturaController {
 
     private final FakturaService fakturaService;
 
 
     @Autowired
-    public Controller(FakturaService fakturaService) {
+    public FakturaController(FakturaService fakturaService) {
         this.fakturaService = fakturaService;
     }
 

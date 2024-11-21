@@ -1,5 +1,6 @@
 package com.example.Eshop.Dao.Impl;
 
+import Request.PersonalDocumentRequest;
 import com.example.Eshop.Dao.PersonalDocumentsDao;
 import com.example.Eshop.Dto.PersonalDocuments;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +15,21 @@ import java.util.List;
 @Repository
 public class PersonalDocumentsDaoImpl implements PersonalDocumentsDao {
 
-    private static final String GET_PERSONAL_DOC_SQL = "SELECT pd.perId, pd.obcianskypreukaz, pd.isVerified, c.countryName " +
-            "FROM personaldocuments pd " +
-            "JOIN country c ON pd.stat = c.countryId " +
-            "WHERE pd.perId = ?";
-    private static final String GET_PER_ID_BY_CUSTOMER_ID_SQL = "SELECT perId FROM personaldocuments WHERE obcianskypreukaz = ?";
-
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     public PersonalDocumentsDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+    private static final String GET_PERSONAL_DOC_SQL = "SELECT pd.perId, pd.obcianskypreukaz, pd.isVerified, c.countryName " +
+            "FROM personaldocuments pd " +
+            "JOIN country c ON pd.stat = c.countryId " +
+            "WHERE pd.perId = ?";
+    private static final String GET_PER_ID_BY_CUSTOMER_ID_SQL = "SELECT perId FROM personaldocuments WHERE obcianskypreukaz = ?";
+
+    private static final String SAVE_PERSONAL_DOCUMENTS_SQL = "INSERT INTO personaldocuments (perId, obcianskypreukaz, stat, isVerified) VALUES (?, ?, ?, ?)";
+
+
 
     @Override
     public PersonalDocuments getPersonalDoc(long perId) {
@@ -37,6 +41,12 @@ public class PersonalDocumentsDaoImpl implements PersonalDocumentsDao {
     public Long getPerIdByCustomerId(String customerId) {
         List<Long> perIds = jdbcTemplate.query(GET_PER_ID_BY_CUSTOMER_ID_SQL, (rs, rowNum) -> rs.getLong("perId"), customerId);
         return perIds.isEmpty() ? null : perIds.get(0);
+    }
+
+
+    @Override
+    public void savePersonalDocuments(PersonalDocumentRequest personalDocuments) {
+        jdbcTemplate.update(SAVE_PERSONAL_DOCUMENTS_SQL, personalDocuments.getPerId(), personalDocuments.getCustomerId(), personalDocuments.getCountry(), personalDocuments.getIsVerified());
     }
 
     private static class PersonalDocumentsRowMapper implements RowMapper<PersonalDocuments> {

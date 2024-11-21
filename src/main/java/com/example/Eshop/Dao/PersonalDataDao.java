@@ -9,4 +9,7 @@ public interface PersonalDataDao {
     PersonalData getPersonalData(long perId);
 
     List<PersonalData> getPersonalDataByName(String firstName, String lastName);
+
+    void savePersonalData(PersonalData personalData);
+
 }
