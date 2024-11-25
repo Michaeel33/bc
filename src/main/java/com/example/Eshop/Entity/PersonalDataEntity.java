@@ -1,22 +1,39 @@
-package com.example.Eshop.Dto;
+package com.example.Eshop.Entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "personal_data")
+public class PersonalDataEntity {
 
-
-public class PersonalData {
-
+    @Id
+    @Column(name = "per_id")
     private Long perId;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "ulica")
     private String ulica;
+
+    @Column(name = "mesto")
     private String mesto;
+
+    @Column(name = "psc")
     private String psc;
 
 
-    public PersonalData() {
+    public PersonalDataEntity() {
     }
 
-    public PersonalData(Long perId, String firstName, String lastName, String ulica, String mesto, String psc) {
+
+    public PersonalDataEntity(Long perId, String firstName, String lastName, String ulica, String mesto, String psc) {
         this.perId = perId;
         this.firstName = firstName;
         this.lastName = lastName;
